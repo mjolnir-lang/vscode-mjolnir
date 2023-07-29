@@ -1,1 +1,1 @@
-# Mjonlir Language Support for Visual Studio Code
+# Mjolnir Language Support for Visual Studio Code
