@@ -18,7 +18,7 @@
                     "include": "#comment"
                 },
                 {
-                    "include": "#namespace"
+                    "include": "#module"
                 },
                 {
                     "include": "#import"
@@ -175,7 +175,7 @@
         "function": {
             "patterns": [
                 {
-                    "match": "\\b[0-9_]*[a-z][a-z0-9_]*(?=\\s*\\()",
+                    "match": "\\b[0-9_]*[a-z][a-z0-9_]*(?=\\()",
                     "name": "keyword.operator.mj"
                 },
                 {
@@ -203,7 +203,7 @@
             ]
         },
         "import": {
-            "begin": "^\\s*(import)\\b",
+            "begin": "^\\s*(import)\\s+(?=[A-Za-z0-9_])",
             "end": "$",
             "beginCaptures": {
                 "1": {
@@ -212,15 +212,11 @@
             },
             "patterns": [
                 {
-                    "match": "\\b(\\w+)\\b",
+                    "match": "\\b[A-Za-z0-9_][A-Za-z0-9_.+-]+",
                     "name": "punctuation.quoted.mj"
                 },
                 {
-                    "match": ";",
-                    "name": "punctuation.terminator.mj"
-                },
-                {
-                    "match": "\\.",
+                    "match": "::",
                     "name": "punctuation.separator.mj"
                 }
             ]
@@ -236,11 +232,11 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(asm|catch|do|try)(?=\\s*{)",
+                    "match": "\\b(asm|catch|do|try)(?=\\s+{)",
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(catch|for|if|match|try|until|while)(?=\\s*\\()",
+                    "match": "\\b(catch|for|if|match|try|until|while)(?=\\s+\\()",
                     "name": "keyword.control.mj"
                 },
                 {
@@ -249,7 +245,7 @@
                 }
             ]
         },
-        "namespace": {
+        "module": {
             "match": "\\b[A-Za-z0-9_][A-Za-z0-9_.+-]+(?=::)",
             "name": "entity.name.type.mj",
             "patterns": [
@@ -468,7 +464,7 @@
         "unit": {
             "patterns": [
                 {
-                    "match": "\\b(unit)(?:(<)\\s*((?:[A-Za-zµΩ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩ°'\"·^*/-]*)\\s*(>))",
+                    "match": "\\b(unit)(?:(<)((?:[A-Za-zµΩ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩ°'\"·^*/-]*)(>))",
                     "captures": {
                         "1": {
                             "name": "keyword.control.mj"
@@ -485,7 +481,7 @@
                     }
                 },
                 {
-                    "match": "\\b(unit)(?:\\s*((?:[A-Za-zµΩ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩ°'\"·^*/-]*))",
+                    "match": "\\b(unit)(?:\\s+((?:[A-Za-zµΩ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩ°'\"·^*/-]*))",
                     "captures": {
                         "1": {
                             "name": "keyword.control.mj"
@@ -504,7 +500,7 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:dimension)(?=\\s*[{A-Za-z0-9_])",
+                    "match": "\\b(?:dimension)(?=\\s+[{A-Za-z0-9_])",
                     "name": "keyword.control.mj"
                 }
             ]
