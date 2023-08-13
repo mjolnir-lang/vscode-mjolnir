@@ -38,7 +38,7 @@ export async function get_markdown_it(context: ExtensionContext) {
                     }).catch(null)
             }
         });
-        const grammar = await registry.loadGrammar('source.lmps')
+        const grammar = await registry.loadGrammar('source.mj')
         return require('markdown-it')(
             {
                 html: true,
@@ -46,8 +46,8 @@ export async function get_markdown_it(context: ExtensionContext) {
                 typographer: true,
                 langPrefix: '',
                 highlight: function (str: string, lang: string) {
-                    if (grammar && lang && lang == 'lmps') {
-                        return tokenize_lmps(str, grammar)
+                    if (grammar && lang && lang == 'mj') {
+                        return tokenize_mj(str, grammar)
                     }
                 }
             }
@@ -68,7 +68,7 @@ export async function get_markdown_it(context: ExtensionContext) {
 let scopeStack: string[];
 
 
-function tokenize_lmps(text: string, grammar: vsctm.IGrammar) {
+function tokenize_mj(text: string, grammar: vsctm.IGrammar) {
     const lines = text.split(RegExp('\n'))
     let html = '<pre class="editor editor-colors">';
 
