@@ -36,35 +36,35 @@
         "languages": [
             {
                 "id": "mjolnir",
+                "extensions": [".mj"],
+                "aliases": ["Mjolnir", "mjolnir"],
+                "configuration": "./language-configuration.json",
                 "icon": {
                     "light": "./images/mj-icon.png",
                     "dark": "./images/mj-icon.png"
-                },
-                "aliases": ["Mjolnir", "mjolnir"],
-                "extensions": [".mj"],
-                "configuration": "./language-configuration.json"
+                }
             }, {
                 "id": "mjolnir-injection"
             }, {
                 "id": "asm-z80",
+                "extensions": [".asm-z80"],
+                "aliases": ["Z80 ASM", "z80", "asm-z80"],
+                "configuration": "./language-configuration.json",
                 "icon": {
                     "light": "./images/asm-icon.png",
                     "dark": "./images/asm-icon.png"
-                },
-                "aliases": ["Z80 ASM", "z80", "asm-z80"],
-                "extensions": [".asm-z80"],
-                "configuration": "./language-configuration.json"
+                }
             }, {
                 "id": "asm-x86-injection"
             }, {
                 "id": "asm-x86",
+                "extensions": [".asm-x86"],
+                "aliases": ["x86 ASM", "x86", "asm-x86"],
+                "configuration": "./language-configuration.json",
                 "icon": {
                     "light": "./images/asm-icon.png",
                     "dark": "./images/asm-icon.png"
-                },
-                "aliases": ["x86 ASM", "x86", "asm-x86"],
-                "extensions": [".asm-x86"],
-                "configuration": "./language-configuration.json"
+                }
             }, {
                 "id": "asm-x86-injection"
             }
@@ -197,7 +197,7 @@
         },
         "configurationDefaults": {
             "[mjolnir]": {
-                "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+                "editor.wordSeparators": "`~!@#$%^&*()=[{]}\\|;:'\",<>/?"
             }
         }
     }
