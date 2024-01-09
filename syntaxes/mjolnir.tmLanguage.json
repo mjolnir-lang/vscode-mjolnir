@@ -36,9 +36,6 @@
                     "include": "#number"
                 },
                 {
-                    "include": "#constant"
-                },
-                {
                     "include": "#punctuation"
                 },
                 {
@@ -55,6 +52,9 @@
                 },
                 {
                     "include": "#string"
+                },
+                {
+                    "include": "#constant"
                 },
                 {
                     "include": "#function"
@@ -322,12 +322,12 @@
             "patterns": [
                 {
                     "begin": "'",
-                    "end": "'(?=[^']*$)",
+                    "end": "'(?=[^']*$)|$",
                     "name": "string.quoted.single.mj"
                 },
                 {
                     "begin": "\"",
-                    "end": "\"",
+                    "end": "\"|$",
                     "name": "string.quoted.double.mj",
                     "patterns": [
                         {
@@ -343,8 +343,8 @@
             ]
         },
         "type": {
-            "begin": "\\b([iu](?:8|16|32|64|128)|f(?:16|32|64|80|128))\\b(?:(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|[A-Z][A-Z0-9.+-]*[a-z][A-Za-z0-9.+-]*)",
-            "end": "(?!(?:\\s*[\\[<&*^?]|\\((?:\\b([iu](?:8|16|32|64|128)\\b|f(?:16|32|64|80|128)\\b|bool\\b|void\\b|[A-Z]\\b|[A-Z][A-Z0-9.+-]*[a-z][A-Za-z0-9.+-]*|const\\b|mutable\\b|safe\\b|volatile\\b))))",
+            "begin": "\\b([iu](?:8|16|32|64|128)|f(?:16|32|64|80|128))\\b(?:(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*)",
+            "end": "(?!(?:\\s*[\\[<&*^?]|\\((?:\\b([iu](?:8|16|32|64|128)\\b|f(?:16|32|64|80|128)\\b|bool\\b|void\\b|[A-Z]\\b|[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*|const\\b|mutable\\b|safe\\b|volatile\\b))))",
             "beginCaptures": {
                 "1": {
                     "name": "entity.name.type.mj"
