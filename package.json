@@ -197,7 +197,7 @@
         },
         "configurationDefaults": {
             "[mjolnir]": {
-                "editor.wordSeparators": "`~!@#$%^&*()=[{]}\\|;:'\",<>/?"
+                "editor.wordSeparators": "`~!@#$%^&*()=[{]}\\|;:'\",.-+<>/?"
             }
         }
     }
