@@ -24,9 +24,6 @@
                     "include": "#import"
                 },
                 {
-                    "include": "#extern"
-                },
-                {
                     "include": "#annotation"
                 },
                 {
@@ -36,19 +33,19 @@
                     "include": "#number"
                 },
                 {
-                    "include": "#punctuation"
-                },
-                {
                     "include": "#keyword"
                 },
                 {
                     "include": "#unit"
                 },
                 {
-                    "include": "#operator"
+                    "include": "#type"
                 },
                 {
-                    "include": "#type"
+                    "include": "#punctuation"
+                },
+                {
+                    "include": "#operator"
                 },
                 {
                     "include": "#string"
@@ -149,32 +146,6 @@
         "constant": {
             "match": "\\b(?:false|null|true|uninitialized|[A-Z][A-Z0-9_]+|[0-9_]+[A-Z][A-Z0-9_]*)\\b",
             "name": "constant.language.mj"
-        },
-        "extern": {
-            "begin": "\\b(extern)\\s*(\"C\")\\s*({)",
-            "end": "}",
-            "beginCaptures": {
-                "1": {
-                    "name": "keyword.control.mj"
-                },
-                "2": {
-                    "name": "string.quoted.double.mj"
-                },
-                "3": {
-                    "name": "punctuation.section.mj"
-                }
-            },
-            "endCaptures": {
-                "0": {
-                    "name": "punctuation.section.mj"
-                }
-            },
-            "name": "meta.embedded.block.c",
-            "patterns": [
-                {
-                    "include": "source.c"
-                }
-            ]
         },
         "function": {
             "match": "\\b[0-9]*[a-z_][a-z0-9_]*(?=[(<])",
@@ -352,7 +323,7 @@
         },
         "type": {
             "begin": "\\b((?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128(?:x[24])?))\\b(?:(?<!x..?)(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*)",
-            "end": "(?![\\[<&*?]|\\(\\)[&*?]|\\((?:(?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128(?:x[24])?)\\b|bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*|const\\b|mutable\\b|safe\\b|volatile\\b))",
+            "end": "(?!\\)[\\(?]|[\\[<&*?]|\\(\\)[&*?]|\\((?:(?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128(?:x[24])?)\\b|bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*|const\\b|mutable\\b|safe\\b|volatile\\b))",
             "beginCaptures": {
                 "1": {
                     "name": "entity.name.type.mj"
@@ -368,9 +339,16 @@
                 },
                 "5": {
                     "name": "entity.name.type.mj"
+                },
+                "6": {
+                    "name": "storage.modifier.mj"
                 }
             },
             "patterns": [
+                {
+                    "match": "\\)",
+                    "name": "punctuation.section.mj"
+                },
                 {
                     "match": "\\?",
                     "name": "storage.modifier.mj"
