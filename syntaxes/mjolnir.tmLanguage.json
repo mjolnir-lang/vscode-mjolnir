@@ -27,6 +27,9 @@
                     "include": "#annotation"
                 },
                 {
+                    "include": "#punctuation"
+                },
+                {
                     "include": "#type-qualifier"
                 },
                 {
@@ -39,13 +42,10 @@
                     "include": "#unit"
                 },
                 {
-                    "include": "#type"
-                },
-                {
-                    "include": "#punctuation"
-                },
-                {
                     "include": "#operator"
+                },
+                {
+                    "include": "#type"
                 },
                 {
                     "include": "#string"
@@ -111,7 +111,7 @@
                             "name": "punctuation.quoted.mj"
                         },
                         {
-                            "match": "(?<=/// #+ ).*$",
+                            "match": "(?<=/// #+) .*$",
                             "name": "punctuation.quoted.mj"
                         },
                         {
@@ -220,7 +220,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F']+(?:\\.\\h+)?(?:(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F']+(?:\\.\\h+(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -426,16 +426,8 @@
             ]
         },
         "dimension": {
-            "patterns": [
-                {
-                    "match": "\\b(?:dimension)(?=<)",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\b(?:dimension)(?=\\s+[{A-Za-z0-9_])",
-                    "name": "keyword.control.mj"
-                }
-            ]
+            "match": "\\bdimension(?=<|\\s+[{A-Za-z0-9_])",
+            "name": "keyword.control.mj"
         },
         "variable": {
             "match": "\\b[0-9]*[a-z_][a-z0-9_]*\\b",
