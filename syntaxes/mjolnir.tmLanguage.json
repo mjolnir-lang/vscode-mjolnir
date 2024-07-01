@@ -15,6 +15,9 @@
         "all": {
             "patterns": [
                 {
+                    "include": "#comment-list"
+                },
+                {
                     "include": "#comment"
                 },
                 {
@@ -75,8 +78,8 @@
         "comment": {
             "patterns": [
                 {
-                    "begin": "/// ```",
-                    "end": "/// ```",
+                    "begin": "^ */// ```",
+                    "end": "^ *(?:/// ```|(?!///))",
                     "name": "comment.block.documentation.mj",
                     "patterns": [
                         {
@@ -92,30 +95,18 @@
                     ]
                 },
                 {
-                    "begin": "///",
+                    "begin": "^ *///",
                     "end": "$",
                     "name": "comment.block.documentation.mj",
                     "patterns": [
                         {
-                            "begin": "`",
-                            "end": "`|$",
-                            "name": "comment.block.documentation.mj",
-                            "patterns": [
-                                {
-                                    "include": "#all"
-                                }
-                            ]
+                            "include": "#comment-inline-code"
                         },
                         {
-                            "match": "(?<=/// )(?:BUG|DEPRECATED|FIXME|HACK|NOTE|OPTIMIZE|REVIEW|TODO):(?= )",
-                            "name": "punctuation.quoted.mj"
+                            "include": "#comment-tag"
                         },
                         {
                             "match": "(?<=/// #+) .*$",
-                            "name": "punctuation.quoted.mj"
-                        },
-                        {
-                            "match": "(?<=/// +)(?:-|\\w+[.)])(?= )",
                             "name": "punctuation.quoted.mj"
                         }
                     ]
@@ -126,18 +117,45 @@
                     "name": "comment.line.double-slash.mj",
                     "patterns": [
                         {
-                            "begin": "`",
-                            "end": "`|$",
-                            "name": "comment.block.documentation.mj",
-                            "patterns": [
-                                {
-                                    "include": "#all"
-                                }
-                            ]
+                            "include": "#comment-inline-code"
                         },
                         {
-                            "match": "(?<=// )(?:BUG|DEPRECATED|FIXME|HACK|NOTE|OPTIMIZE|REVIEW|TODO):(?= )",
+                            "include": "#comment-tag"
+                        }
+                    ]
+                }
+            ]
+        },
+        "comment-inline-code": {
+            "begin": "`",
+            "end": "`|$",
+            "name": "comment.block.documentation.mj",
+            "patterns": [
+                {
+                    "include": "#all"
+                }
+            ]
+        },
+        "comment-tag": {
+            "match": "(?<=// )(?:BUG|DEPRECATED|FIXME|HACK|NOTE|OPTIMIZE|REVIEW|TODO):(?= )",
+            "name": "punctuation.quoted.mj"
+        },
+        "comment-list": {
+            "begin": "^ */// *$",
+            "while": "^ */// *(?=\\S)",
+            "name": "comment.block.documentation.mj",
+            "patterns": [
+                {
+                    "begin": "(?<=^ */// +)(-|\\w+[.)]) ",
+                    "end": "$",
+                    "beginCaptures": {
+                        "1": {
                             "name": "punctuation.quoted.mj"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comment-inline-code"
                         }
                     ]
                 }
@@ -205,7 +223,7 @@
         "number": {
             "patterns": [
                 {
-                    "match": "(?:\\b|[+-]?)\\d+(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)\\d+(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -220,7 +238,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F']+(?:\\.\\h+(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F']+(?:\\.\\h+(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -238,7 +256,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0o)[0-7']+(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0o)[0-7']+(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -253,7 +271,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0b)[01']+(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?|x)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0b)[01']+(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_.+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -322,8 +340,8 @@
             ]
         },
         "type": {
-            "begin": "\\b((?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128(?:x[24])?))\\b(?:(?<!x..?)(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*)",
-            "end": "(?!\\)[\\(?]|[\\[<&*?]|\\(\\)[&*?]|\\((?:(?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128(?:x[24])?)\\b|bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*|const\\b|mutable\\b|safe\\b|volatile\\b))",
+            "begin": "\\b((?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128))\\b(?:(?<!x..?)(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9.+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9.+-]*)",
+            "end": "(?!\\)[\\(?]|[\\[\\(<&*?])",
             "beginCaptures": {
                 "1": {
                     "name": "entity.name.type.mj"
