@@ -1,2 +1,3 @@
-.vscode/
-misc/
+/.vscode/
+/package-lock.json
+/misc/

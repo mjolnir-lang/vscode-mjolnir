@@ -182,7 +182,7 @@
             "name": "constant.language.mj"
         },
         "function": {
-            "match": "\\b[0-9]*[a-z_][a-z0-9_]*(?=[(<])",
+            "match": "\\b[0-9]*[a-z_][a-z0-9_]*(?=[(<&])",
             "name": "keyword.operator.mj"
         },
         "import": {
