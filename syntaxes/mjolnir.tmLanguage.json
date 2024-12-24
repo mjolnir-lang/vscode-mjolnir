@@ -112,8 +112,7 @@
                             "include": "#comment-tag"
                         },
                         {
-                            "match": "(?<=/// #+) .*$",
-                            "name": "punctuation.quoted.mj"
+                            "include": "#comment-heading"
                         }
                     ]
                 },
@@ -142,6 +141,10 @@
                 }
             ]
         },
+        "comment-heading": {
+            "match": "(?<=/// #+) .*$",
+            "name": "punctuation.quoted.mj"
+        },
         "comment-tag": {
             "match": "(?<=// )(?:BUG|DEPRECATED|FIXME|HACK|NOTE|OPTIMIZE|REVIEW|TODO):(?= )",
             "name": "punctuation.quoted.mj"
@@ -152,7 +155,16 @@
             "name": "comment.block.documentation.mj",
             "patterns": [
                 {
+                    "include": "#comment-inline-code"
+                },
+                {
                     "include": "#comment-list"
+                },
+                {
+                    "include": "#comment-tag"
+                },
+                {
+                    "include": "#comment-heading"
                 }
             ]
         },
@@ -207,7 +219,7 @@
         "keyword": {
             "patterns": [
                 {
-                    "match": "\\b(?:bitfield|enum|impl|type|union|where)(?=<)",
+                    "match": "\\b(?:bitfield|enum|impl|struct|type|union|where)(?=<)",
                     "name": "keyword.control.mj"
                 },
                 {
