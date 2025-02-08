@@ -223,7 +223,7 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:asm|class|else|embed|enum|interface|struct|type|union)(?=\\s+[{A-Za-z0-9_])",
+                    "match": "\\b(?:asm|case|catch|class|do|else|embed|enum|for|if|interface|match|struct|try|then|type|union|until|use|when|while)(?=\\s+[!~*&-]*[({A-Za-z0-9_])",
                     "name": "keyword.control.mj"
                 },
                 {
@@ -231,15 +231,7 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(catch|do|try)(?=\\s+{)",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\b(catch|for|if|match|try|until|while)(?=\\s+\\()",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\b(break|continue|fail|fallthrough|return|yield)\\b",
+                    "match": "\\b(break|continue|fail|fallthrough|return|yield)\\b(?![(<&])",
                     "name": "keyword.control.mj"
                 }
             ]
@@ -368,9 +360,6 @@
                     "match": "[()\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
                     "name": "punctuation.section.mj"
                 },
-
-
-
                 {
                     "include": "#comment"
                 },
@@ -431,9 +420,6 @@
                     "match": "[()\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
                     "name": "punctuation.section.mj"
                 },
-
-
-
                 {
                     "include": "#comment"
                 },
