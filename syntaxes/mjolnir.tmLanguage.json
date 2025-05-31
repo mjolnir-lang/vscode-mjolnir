@@ -30,6 +30,9 @@
                     "include": "#annotation"
                 },
                 {
+                    "include": "#shell-variable"
+                },
+                {
                     "include": "#shell-substitution"
                 },
                 {
@@ -219,11 +222,25 @@
         "keyword": {
             "patterns": [
                 {
+                    "begin": "\\bfor(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[({A-Za-z0-9_\"'])",
+                    "end": "\\b(?:in(?!\\s+in)\\b|(?<=in\\s+)in(?=\\s+in))\\b|$",
+                    "name": "keyword.control.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
+                },
+                {
                     "match": "\\b(?:bitfield|enum|impl|struct|type|union|where)(?=<)",
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:asm|case|catch|class|do|else|embed|enum|for|if|interface|match|struct|try|then|type|union|until|use|when|while)(?=\\s+[!~*&-]*[({A-Za-z0-9_])",
+                    "match": "\\b(?:asm|do|embed|enum|struct|union)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[({A-Za-z0-9_\"'])",
+                    "name": "keyword.control.mj"
+                },
+                {
+                    "match": "\\b(?:case|catch|class|if|interface|match|try|type|until|use|when|while)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[(A-Za-z0-9_\"'])",
                     "name": "keyword.control.mj"
                 },
                 {
@@ -231,7 +248,7 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(break|continue|fail|fallthrough|return|yield)\\b(?![(<&])",
+                    "match": "\\b(and|break|continue|else|fail|not|or|return|then|yield)\\b(?![(<&])",
                     "name": "keyword.control.mj"
                 }
             ]
@@ -243,7 +260,7 @@
         "number": {
             "patterns": [
                 {
-                    "match": "(?:\\b|[+-]?)\\d+(?:,\\d+)*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)\\d+(?:,\\d+)*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128|word)?)?(?![A-Za-z0-9_+-])(\\s+(?:(?!and|case|catch|else|if|match|or|then)\\b[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -258,7 +275,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F]+(?:['_][0-9A-F]+)*(?:\\.[0-9A-F]+)?(?:(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0x)[0-9A-F]+(?:['_][0-9A-F]+)*(?:\\.[0-9A-F]+)?(?:(p)[+-]\\d+)?(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128|word)?)?(?![A-Za-z0-9_+-])(\\s+(?:(?!and|case|catch|else|if|match|or|then)\\b[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -276,7 +293,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0o)[0-7]+(?:['_][0-7]+)*(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0o)[0-7]+(?:['_][0-7]+)*(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128|word)?)?(?![A-Za-z0-9_+-])(\\s+(?:(?!and|case|catch|else|if|match|or|then)\\b[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -291,7 +308,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-]?)(0b)[01]+(?:['_][01]+)*(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-]?)(0b)[01]+(?:['_][01]+)*(f(?:16|32|64|128)?|[iu](?:8|16|32|64|128|word)?)?(?![A-Za-z0-9_+-])(\\s+(?:(?!and|case|catch|else|if|match|or|then)\\b[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -308,16 +325,8 @@
             ]
         },
         "operator": {
-            "patterns": [
-                {
-                    "match": "!(?!=)|&&|\\|\\|",
-                    "name": "keyword.operator.logical.mj"
-                },
-                {
-                    "match": "[+\\-*/%~&^|?:]|=>?|<=>|[<>!]=|(?<=[ {])(?:<+|(?<!^\\s*)>+)",
-                    "name": "keyword.operator.mj"
-                }
-            ]
+            "match": "[+\\-*/%~&^|?:]|=>?|<=>|[<>!]=|(?<=[ {])(?:<+|(?<!^\\s*)>+)",
+            "name": "keyword.operator.mj"
         },
         "punctuation": {
             "patterns": [
@@ -336,12 +345,12 @@
             ]
         },
         "shell": {
-            "begin": "\\$",
+            "begin": "\\$ ",
             "end": "(?=`)|$",
             "name": "punctuation.quoted.mj",
             "patterns": [
                 {
-                    "match": "(?<=\\$)[0-9]*[a-z_][a-z0-9_]*",
+                    "match": "(?<=\\$ )[0-9]*[a-z_][a-z0-9_]*",
                     "name": "keyword.operator.mj"
                 },
                 {
@@ -394,6 +403,15 @@
                     "include": "#variable"
                 }
             ]
+        },
+        "shell-variable": {
+            "match": "(\\$)[0-9_]*[A-Za-z][A-Za-z0-9_]*\\b",
+            "name": "variable.other.mj",
+            "captures": {
+                "1": {
+                    "name": "punctuation.quoted.mj"
+                }
+            }
         },
         "shell-substitution": {
             "begin": "\\$\\(",
@@ -480,7 +498,7 @@
             ]
         },
         "type": {
-            "begin": "\\b((?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128))\\b(?:(?<!x..?)(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9+-]*)",
+            "begin": "\\b((?:[iu]|f(?!8))(?:8(?:x(?:16|32|64))?|16(?:x(?:8|16|32))?|32(?:x(?:4|8|16))?|64(?:x[248])?|128|word))\\b(?:(?<!x..?)(<)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?|(bool\\b|void\\b|[A-Z]\\b|(?:[0-9][0-9+-]*)?[A-Z][A-Z0-9+-]*[a-z][A-Za-z0-9+-]*)",
             "end": "(?!\\)[\\(?]|[\\[\\(<&*?!])",
             "beginCaptures": {
                 "1": {

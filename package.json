@@ -1,204 +1,238 @@
 {
-    "name": "vscode-mjolnir",
-    "displayName": "Mjolnir",
-    "description": "Mjolnir programming language support for Visual Studio Code",
-    "version": "0.1.0",
-    "license": "MIT",
-    "private" : true,
-    "preview": true,
-    "icon": "images/mj-icon.png",
-    "engines": {
-        "vscode": "^1.87.0"
-    },
-    "categories": [
-        "Programming Languages",
-        "Linters",
-        "Formatters"
-    ],
-    "keywords": ["Mjolnir", "mjolnir", "mj"],
-    "galleryBanner": {
-        "color": "#32302F",
-        "theme": "dark"
-    },
-    "author": {
-        "name": "Wesley Dahar"
-    },
-    "homepage": "https://www.mjolnir-lang.org",
-    "bugs": {
-        "url": "https://github.com/mjolnir-lang/vscode-mjolnir/issues",
-        "email": "wesleydahar@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mjolnir-lang/vscode-mjolnir.git"
-    },
-    "contributes": {
-        "languages": [
-            {
-                "id": "mjolnir",
-                "extensions": [".mj"],
-                "aliases": ["Mjolnir", "mjolnir"],
-                "configuration": "./language-configuration.json",
-                "icon": {
-                    "light": "./images/mj-icon.png",
-                    "dark": "./images/mj-icon.png"
-                }
-            }, {
-                "id": "mjolnir-injection"
-            }, {
-                "id": "asm-z80",
-                "extensions": [".asm-z80"],
-                "aliases": ["Z80 ASM", "z80", "asm-z80"],
-                "configuration": "./language-configuration.json",
-                "icon": {
-                    "light": "./images/asm-icon.png",
-                    "dark": "./images/asm-icon.png"
-                }
-            }, {
-                "id": "asm-x86-injection"
-            }, {
-                "id": "asm-x86",
-                "extensions": [".asm-x86"],
-                "aliases": ["x86 ASM", "x86", "asm-x86"],
-                "configuration": "./language-configuration.json",
-                "icon": {
-                    "light": "./images/asm-icon.png",
-                    "dark": "./images/asm-icon.png"
-                }
-            }, {
-                "id": "asm-x86-injection"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "mjolnir",
-                "scopeName": "source.mj",
-                "path": "./syntaxes/mjolnir.tmLanguage.json",
-                "embeddedLanguages": {
-                    "meta.embedded.block.c": "c"
-                }
-            }, {
-                "language": "mjolnir-injection",
-                "scopeName": "markdown.mj.injection",
-                "path": "./syntaxes/mjolnir-injection.json",
-                "injectTo": [
-                    "text.html.markdown"
-                ]
-            }, {
-                "language": "asm-z80",
-                "scopeName": "source.asm-z80",
-                "path": "./syntaxes/asm-z80.tmLanguage.json"
-            }, {
-                "language": "asm-z80-injection",
-                "scopeName": "markdown.asm-z80.injection",
-                "path": "./syntaxes/asm-z80-injection.json",
-                "injectTo": [
-                    "text.html.markdown"
-                ]
-            }, {
-                "language": "asm-x86",
-                "scopeName": "source.asm-x86",
-                "path": "./syntaxes/asm-x86.tmLanguage.json"
-            }, {
-                "language": "asm-x86-injection",
-                "scopeName": "markdown.asm-x86.injection",
-                "path": "./syntaxes/asm-x86-injection.json",
-                "injectTo": [
-                    "text.html.markdown"
-                ]
-            }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "Mjolnir",
-            "properties": {
-                "mjolnir.compiler_path": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "The compiler path (Default: /usr/bin/mjc)",
-                    "scope": "resource"
-                },
-                "mjolnir.library_dir": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "--libdir",
-                    "scope": "resource"
-                },
-                "mjolnir.output_dir": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "--target",
-                    "scope": "resource"
-                },
-                "mjolnir.build_dir": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "The build output directory (Default: 'build/')",
-                    "scope": "resource"
-                },
-                "mjolnir.build_flags": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "Flags added to BUILD_FLAGS.",
-                    "scope": "resource"
-                },
-                "mjolnir.wait_to_build": {
-                    "type": [
-                        "number",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "Time in milliseconds between receiving a change notification and starting build.",
-                    "scope": "resource"
-                },
-                "mjolnir.show_warnings": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show warnings.",
-                    "scope": "resource"
-                },
-                "mjolnir.build_on_save": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Only index the project when a file is saved and not on change.",
-                    "scope": "resource"
-                },
-                "mjolnir.jobs": {
-                    "type": [
-                        "number",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "The number of compile processes to be run in parallel.",
-                    "scope": "resource"
-                },
-                "mjolnir.show_hover_context": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show additional context in hover tooltips when available. This is often the type local variable declaration.",
-                    "scope": "resource"
-                }
-            }
-        },
-        "configurationDefaults": {
-            "[mjolnir]": {
-                "editor.wordSeparators": "`~!@#$%^&*()=[{]}\\|;:'\",.-+<>/?"
-            }
-        }
-    }
+	"name": "vscode-mjolnir",
+	"displayName": "Mjolnir",
+	"description": "Mjolnir programming language support for Visual Studio Code",
+	"version": "0.1.0",
+	"license": "MIT",
+	"private": true,
+	"preview": true,
+	"icon": "images/mj-icon.png",
+	"engines": {
+		"vscode": "^1.87.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Linters",
+		"Formatters"
+	],
+	"keywords": [
+		"Mjolnir",
+		"mjolnir",
+		"mj"
+	],
+	"galleryBanner": {
+		"color": "#32302F",
+		"theme": "dark"
+	},
+	"author": {
+		"name": "Wesley Dahar"
+	},
+	"homepage": "https://www.mjolnir-lang.org",
+	"bugs": {
+		"url": "https://github.com/mjolnir-lang/vscode-mjolnir/issues",
+		"email": "wesleydahar@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mjolnir-lang/vscode-mjolnir.git"
+	},
+	"contributes": {
+		"languages": [
+			{
+				"id": "mjolnir",
+				"extensions": [
+					".mj"
+				],
+				"aliases": [
+					"Mjolnir",
+					"mjolnir"
+				],
+				"configuration": "./language-configuration.json",
+				"icon": {
+					"light": "./images/mj-icon.png",
+					"dark": "./images/mj-icon.png"
+				}
+			},
+			{
+				"id": "mjolnir-injection"
+			},
+			{
+				"id": "asm-z80",
+				"extensions": [
+					".asm-z80"
+				],
+				"aliases": [
+					"Z80 ASM",
+					"z80",
+					"asm-z80"
+				],
+				"configuration": "./language-configuration.json",
+				"icon": {
+					"light": "./images/asm-icon.png",
+					"dark": "./images/asm-icon.png"
+				}
+			},
+			{
+				"id": "asm-x86-injection"
+			},
+			{
+				"id": "asm-x86",
+				"extensions": [
+					".asm-x86"
+				],
+				"aliases": [
+					"x86 ASM",
+					"x86",
+					"asm-x86"
+				],
+				"configuration": "./language-configuration.json",
+				"icon": {
+					"light": "./images/asm-icon.png",
+					"dark": "./images/asm-icon.png"
+				}
+			},
+			{
+				"id": "asm-x86-injection"
+			}
+		],
+		"grammars": [
+			{
+				"language": "mjolnir",
+				"scopeName": "source.mj",
+				"path": "./syntaxes/mjolnir.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.c": "c"
+				}
+			},
+			{
+				"language": "mjolnir-injection",
+				"scopeName": "markdown.mj.injection",
+				"path": "./syntaxes/mjolnir-injection.json",
+				"injectTo": [
+					"text.html.markdown"
+				]
+			},
+			{
+				"language": "asm-z80",
+				"scopeName": "source.asm-z80",
+				"path": "./syntaxes/asm-z80.tmLanguage.json"
+			},
+			{
+				"language": "asm-z80-injection",
+				"scopeName": "markdown.asm-z80.injection",
+				"path": "./syntaxes/asm-z80-injection.json",
+				"injectTo": [
+					"text.html.markdown"
+				]
+			},
+			{
+				"language": "asm-x86",
+				"scopeName": "source.asm-x86",
+				"path": "./syntaxes/asm-x86.tmLanguage.json"
+			},
+			{
+				"language": "asm-x86-injection",
+				"scopeName": "markdown.asm-x86.injection",
+				"path": "./syntaxes/asm-x86-injection.json",
+				"injectTo": [
+					"text.html.markdown"
+				]
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Mjolnir",
+			"properties": {
+				"mjolnir.compiler_path": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "The compiler path (Default: /usr/bin/mjc)",
+					"scope": "resource"
+				},
+				"mjolnir.library_dir": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "--libdir",
+					"scope": "resource"
+				},
+				"mjolnir.output_dir": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "--target",
+					"scope": "resource"
+				},
+				"mjolnir.build_dir": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "The build output directory (Default: 'build/')",
+					"scope": "resource"
+				},
+				"mjolnir.build_flags": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "Flags added to BUILD_FLAGS.",
+					"scope": "resource"
+				},
+				"mjolnir.wait_to_build": {
+					"type": [
+						"number",
+						"null"
+					],
+					"default": null,
+					"description": "Time in milliseconds between receiving a change notification and starting build.",
+					"scope": "resource"
+				},
+				"mjolnir.show_warnings": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show warnings.",
+					"scope": "resource"
+				},
+				"mjolnir.build_on_save": {
+					"type": "boolean",
+					"default": false,
+					"description": "Only index the project when a file is saved and not on change.",
+					"scope": "resource"
+				},
+				"mjolnir.jobs": {
+					"type": [
+						"number",
+						"null"
+					],
+					"default": null,
+					"description": "The number of compile processes to be run in parallel.",
+					"scope": "resource"
+				},
+				"mjolnir.show_hover_context": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show additional context in hover tooltips when available. This is often the type local variable declaration.",
+					"scope": "resource"
+				}
+			}
+		},
+		"configurationDefaults": {
+			"[mjolnir]": {
+				"editor.wordSeparators": "`~!@#$%^&*()=[{]}\\|;:'\",.-+<>/?"
+			}
+		}
+	},
+	"__metadata": {
+		"size": 242003
+	}
 }
