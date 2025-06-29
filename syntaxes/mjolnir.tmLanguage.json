@@ -42,6 +42,9 @@
                     "include": "#number"
                 },
                 {
+                    "include": "#braces"
+                },
+                {
                     "include": "#punctuation"
                 },
                 {
@@ -81,6 +84,20 @@
                 {
                     "match": "\\(.*\\)",
                     "name": "punctuation.section.mj"
+                }
+            ]
+        },
+        "braces": {
+            "patterns": [
+                {
+                    "begin": "{",
+                    "end": "(?=`)|}|$",
+                    "name": "punctuation.section.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
                 }
             ]
         },
@@ -236,11 +253,11 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:asm|do|embed|enum|struct|union)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[({A-Za-z0-9_\"'])",
+                    "match": "\\b(?:asm|do|embed|enum|struct|try|union)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[({A-Za-z0-9_\"'])",
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:case|catch|class|if|interface|match|try|type|until|use|when|while)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[(A-Za-z0-9_\"'])",
+                    "match": "\\b(?:case|catch|class|if|interface|match|type|until|use|when|while)(?=\\s+(?!(?:and|else|or|then)(?:\\b|[<(&])|[ai]s(?=\\s+[A-Za-z0-9]))[~*&+-]*[\\[(A-Za-z0-9_\"'])",
                     "name": "keyword.control.mj"
                 },
                 {
@@ -485,6 +502,16 @@
                     "end": "\"|$",
                     "name": "string.quoted.double.mj",
                     "patterns": [
+                        {
+                            "begin": "\\\\{",
+                            "end": "}",
+                            "name": "constant.character.escape.mj",
+                            "patterns": [
+                                {
+                                    "include": "#all"
+                                }
+                            ]
+                        },
                         {
                             "match": "\\\\(?:[\"0nrt\\\\]|x\\h\\h|u\\h\\h\\h\\h)",
                             "name": "constant.character.escape.mj"
