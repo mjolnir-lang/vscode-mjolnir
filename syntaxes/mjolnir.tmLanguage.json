@@ -270,7 +270,28 @@
         "number": {
             "patterns": [
                 {
-                    "match": "(?:\\b|[+-])\\d+(?:,\\d+)*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/|(?:(?:int|nat|(?:[dinq]|f(?!8|12))(?:(?:8|16|32|64|128))(?:x(?:2|4|8|16|32|64))?)?|[DFINQ])(?![A-Za-z0-9_+-]))?(?:\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*))?)?",
+                    "begin": "(?:\\b|[+-])\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?)?(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])(?:\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?=[A-Za-z0-9πµωΩÅ°'\"]|\\^g))?",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "3": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "end": "(?<! )",
+                    "name": "constant.numeric.mj",
+                    "patterns": [
+                        {
+                            "include": "#unit-expression"
+                        }
+                    ]
+                },
+                {
+                    "match": "(?:\\b|[+-])(0x)[0-9A-F]+(?:_[0-9A-F]{4}|_[0-9A-F]{8})*(?:\\.[0-9A-F]+)?(?:(p)[+-]\\d+)?(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -280,12 +301,12 @@
                             "name": "punctuation.separator.mj"
                         },
                         "3": {
-                            "name": "storage.modifier.mj"
+                            "name": "punctuation.separator.mj"
                         }
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-])(0x)[0-9A-F]+(?:['_][0-9A-F]+)*(?:\\.[0-9A-F]+)?(?:(p)[+-]\\d+)?(f(?:16|32|64|128)?|i(?:8|16|32|64|128)?(?:q(?:8|16|32|64|128)?)?|[qn](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-])(0o)[0-7]+(?:_[0-7]{3})*(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -293,17 +314,11 @@
                         },
                         "2": {
                             "name": "punctuation.separator.mj"
-                        },
-                        "3": {
-                            "name": "punctuation.separator.mj"
-                        },
-                        "4": {
-                            "name": "storage.modifier.mj"
                         }
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-])(0o)[0-7]+(?:['_][0-7]+)*(f(?:16|32|64|128)?|i(?:8|16|32|64|128)?(?:q(?:8|16|32|64|128)?)?|[qn](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
+                    "match": "(?:\\b|[+-])(0b)[01]+(?:_[01]{4}|_[01]{8})*(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -311,24 +326,6 @@
                         },
                         "2": {
                             "name": "punctuation.separator.mj"
-                        },
-                        "3": {
-                            "name": "storage.modifier.mj"
-                        }
-                    }
-                },
-                {
-                    "match": "(?:\\b|[+-])(0b)[01]+(?:['_][01]+)*(f(?:16|32|64|128)?|i(?:8|16|32|64|128)?(?:q(?:8|16|32|64|128)?)?|[qn](?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)?",
-                    "name": "constant.numeric.mj",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.separator.mj"
-                        },
-                        "2": {
-                            "name": "punctuation.separator.mj"
-                        },
-                        "3": {
-                            "name": "storage.modifier.mj"
                         }
                     }
                 }
@@ -518,7 +515,7 @@
             ]
         },
         "type": {
-            "begin": "\\b(?:(?:[inq]|f(?!8|12))(?:8|16|32|64|128)?(?:x(?:2|4|8|16|32|64))?|int|nat|bool|void|[A-Z])\\b|[0-9]*(?:[A-Z][A-Z0-9]*[a-z+-]|[a-z+-][a-z0-9+-]*[A-Z])[A-Za-z0-9+-]*",
+            "begin": "\\b(?:(?:[dinq]|f(?!8|12))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|int|nat|bool|void|[A-Z])\\b|[0-9]*(?:[A-Z][A-Z0-9]*[a-z+-]|[a-z+-][a-z0-9+-]*[A-Z])[A-Za-z0-9+-]*",
             "end": "(?!\\)[\\(?]|[\\[\\(<&*?!#])",
             "name": "entity.name.type.mj",
             "patterns": [
@@ -566,11 +563,11 @@
                 },
                 {
                     "begin": "#",
-                    "end": "(?=\\b|$)",
+                    "end": "(?<!#)",
                     "name": "punctuation.section.mj",
                     "patterns": [
                         {
-                            "include": "#unit"
+                            "include": "#unit-expression"
                         }
                     ]
                 }
@@ -583,57 +580,82 @@
         "unit": {
             "patterns": [
                 {
-                    "match": "(?:(#)|\\b(unit)\\s+)(?:-?\\d+(?:\\.\\d+)?π?·)?(?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*",
-                    "name": "storage.modifier.mj",
-                    "captures": {
+                    "begin": "(#)|\\b(unit)\\s+",
+                    "beginCaptures": {
                         "1": {
                             "name": "punctuation.separator.mj"
                         },
                         "2": {
                             "name": "keyword.control.mj"
                         }
-                    }
+                    },
+                    "end": "(?<!#|\\bunit\\s+)",
+                    "patterns": [
+                        {
+                            "include": "#unit-expression"
+                        }
+                    ]
                 },
                 {
-                    "match": "\\b(unit)(<)(?:((?:[A-Za-zµΩÅ°'\"]|\\^g|1/)[A-Za-z0-9⁰¹²³⁴⁵⁶⁷⁸⁹⁻⸍µΩÅ°'\"·^*/-]*)(>))?",
-                    "captures": {
+                    "begin": "\\b(unit)(<)",
+                    "beginCaptures": {
                         "1": {
                             "name": "keyword.control.mj"
                         },
                         "2": {
                             "name": "punctuation.section.mj"
-                        },
-                        "3": {
-                            "name": "storage.modifier.mj"
-                        },
-                        "4": {
+                        }
+                    },
+                    "end": "(>)",
+                    "endCaptures": {
+                        "1": {
                             "name": "punctuation.section.mj"
                         }
-                    }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#unit-expression"
+                        }
+                    ]
                 }
             ]
         },
         "unit-expression": {
-            "begin": "(?:\\d+(?:\\.\\d+)?)?π?|[A-Za-zµΩÅ°'\"]|\\^g",
-            "end": "(?![·/¹²³⁴⁵⁶⁷⁸⁹⁻])",
+            "begin": "\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g",
+            "end": "(?![·/⁻⁰¹²³⁴⁵⁶⁷⁸⁹])",
             "name": "storage.modifier.mj",
             "patterns": [
                 {
-                    "match": "·(?:[A-Za-zµΩÅ°'\"]+|\\^g)"
+                    "match": "·(?:[a-z]+(?:-[a-z+])*|°?[A-Za-zµωΩÅ]+|[°'\"]|\\^g)"
                 },
                 {
-                    "match": "/(?:\\d+(?:\\.\\d+)?)?π?"
+                    "begin": "/(?:\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
+                    "end": "(?![·/⁻⁰¹²³⁴⁵⁶⁷⁸⁹])",
+                    "patterns": [
+                        {
+                            "match": "·(?:[a-z]+(?:-[a-z+])*|°?[A-Za-zµωΩÅ]+|[°'\"]|\\^g)"
+                        },
+                        {
+                            "begin": "/",
+                            "end": "(?![·/⁻⁰¹²³⁴⁵⁶⁷⁸⁹])",
+                            "name": "invalid.illegal.mj"
+
+                        },
+                        {
+                            "match": "⁻?[¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*(?:⸍[¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?"
+                        },
+                        {
+                            "match": "[·/]?[A-Za-z0-9π⁻⁰¹²³⁴⁵⁶⁷⁸⁹⸍µωΩÅ°'\"^-]*",
+                            "name": "invalid.illegal.mj"
+                        }
+                    ]
                 },
                 {
                     "match": "⁻?[¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*(?:⸍[¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?"
                 },
                 {
-                    "match": "[·/¹²³⁴⁵⁶⁷⁸⁹⁻]([A-Za-z0-9π⁻⁰¹²³⁴⁵⁶⁷⁸⁹⸍µΩÅ°'\"^]*)",
-                    "captures": {
-                        "1": {
-                            "name": "invalid.illegal.mj"
-                        }
-                    }
+                    "match": "[·/]?[A-Za-z0-9π⁻⁰¹²³⁴⁵⁶⁷⁸⁹⸍µωΩÅ°'\"^-]*",
+                    "name": "invalid.illegal.mj"
                 }
             ]
         },
