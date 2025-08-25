@@ -270,7 +270,7 @@
         "number": {
             "patterns": [
                 {
-                    "begin": "(?:\\b|[+-])\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?)?(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])(?:\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?=[A-Za-z0-9πµωΩÅ°'\"]|\\^g))?",
+                    "begin": "(?:\\b|[+-])\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?)?([DFINQ]|(?:[dinq]|f(?!8))(?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])(?:\\s+(?!(?:and|case|catch|else|if|match|or|then)\\b)(?=[A-Za-z0-9πµωΩÅ°'\"]|\\^g))?",
                     "beginCaptures": {
                         "1": {
                             "name": "punctuation.separator.mj"
@@ -291,22 +291,7 @@
                     ]
                 },
                 {
-                    "match": "(?:\\b|[+-])(0x)[0-9A-F]+(?:_[0-9A-F]{4}|_[0-9A-F]{8})*(?:\\.[0-9A-F]+)?(?:(p)[+-]\\d+)?(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
-                    "name": "constant.numeric.mj",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.separator.mj"
-                        },
-                        "2": {
-                            "name": "punctuation.separator.mj"
-                        },
-                        "3": {
-                            "name": "punctuation.separator.mj"
-                        }
-                    }
-                },
-                {
-                    "match": "(?:\\b|[+-])(0o)[0-7]+(?:_[0-7]{3})*(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
+                    "match": "(?:\\b|[+-])(0x)[0-9A-F]+(?:_(?:[0-9A-F]{4}|[0-9A-F]{8}))*(N|n(?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -318,7 +303,19 @@
                     }
                 },
                 {
-                    "match": "(?:\\b|[+-])(0b)[01]+(?:_[01]{4}|_[01]{8})*(?:(int|nat|(?:[dinq]|f(?=[36]))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|[DdFfIiNnQq]))?(?![A-Za-z0-9_+-])",
+                    "match": "(?:\\b|[+-])(0o)[0-7]+(?:_[0-7]{3})*(N|n(?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])",
+                    "name": "constant.numeric.mj",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    }
+                },
+                {
+                    "match": "(?:\\b|[+-])(0b)[01]+(?:_(?:[01]{4}|[01]{8}))*(N|n(?:8|16|32|64|128)?)?(?![A-Za-z0-9_+-])",
                     "name": "constant.numeric.mj",
                     "captures": {
                         "1": {
@@ -483,9 +480,61 @@
         "string": {
             "patterns": [
                 {
-                    "begin": "'",
+                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?'$",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "constant.character.escape.mj"
+                        }
+                    },
+                    "end": "^ *'",
+                    "name": "string.quoted.single.mj",
+                    "patterns": [
+                        {
+                            "begin": "^ {4}((?: {4})*)",
+                            "end": "(?=^\\1')"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?'",
                     "end": "'(?=[^']*$)|$",
                     "name": "string.quoted.single.mj"
+                },
+                {
+                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?\"$",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "constant.character.escape.mj"
+                        }
+                    },
+                    "end": "^ *\"",
+                    "name": "string.quoted.double.mj",
+                    "patterns": [
+                        {
+                            "begin": "^ {4}((?: {4})*)",
+                            "end": "(?=^\\1\")",
+                            "patterns": [
+                                {
+                                    "begin": "\\\\{",
+                                    "end": "}",
+                                    "name": "constant.character.escape.mj",
+                                    "patterns": [
+                                        {
+                                            "include": "#all"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "match": "\\\\(?:[\"0nrt\\\\]|x\\h{2}|u\\h{4})",
+                                    "name": "constant.character.escape.mj"
+                                },
+                                {
+                                    "match": "\\\\(?:x\\h*|u\\h*|.)",
+                                    "name": "invalid.illegal.mj"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "begin": "\"",
@@ -503,7 +552,7 @@
                             ]
                         },
                         {
-                            "match": "\\\\(?:[\"0nrt\\\\]|x\\h\\h|u\\h\\h\\h\\h)",
+                            "match": "\\\\(?:[\"0nrt\\\\]|x\\h{2}|u\\h{4})",
                             "name": "constant.character.escape.mj"
                         },
                         {
