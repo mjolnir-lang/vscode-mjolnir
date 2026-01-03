@@ -33,10 +33,13 @@
                     "include": "#shell-variable"
                 },
                 {
-                    "include": "#shell-substitution"
+                    "include": "#shell-expression"
                 },
                 {
-                    "include": "#shell"
+                    "include": "#shell-statement"
+                },
+                {
+                    "include": "#regex"
                 },
                 {
                     "include": "#number"
@@ -77,7 +80,7 @@
             ]
         },
         "annotation": {
-            "match": "@[0-9_]*[a-z][a-z0-9_]*\\b",
+            "match": "@[0-9]*[a-z][0-9a-z]*(?:-[0-9a-z]+)*\\b",
             "name": "punctuation.quoted.mj"
         },
         "braces": {
@@ -343,150 +346,364 @@
                     "name": "punctuation.separator.mj"
                 },
                 {
-                    "match": "[()\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
+                    "match": "[\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
                     "name": "punctuation.section.mj"
+                },
+                {
+                    "begin": "\\(",
+                    "end": "\\)",
+                    "name": "punctuation.section.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
                 }
             ]
         },
-        "shell": {
-            "begin": "\\$ ",
-            "end": "(?=`)|$",
-            "name": "punctuation.quoted.mj",
+        "regex": {
             "patterns": [
                 {
-                    "match": "(?<=\\$ )[0-9]*[a-z_][a-z0-9_]*",
+                    "begin": "(r)\"$",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "storage.regex.mj"
+                        }
+                    },
+                    "end": "^ *\"",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "name": "string.quoted.double.mj",
+                    "patterns": [
+                        {
+                            "begin": "^ {4}((?: {4})*)",
+                            "end": "(?=^\\1\")",
+                            "patterns": [
+                                {
+                                    "include": "#regex-string"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "begin": "(r)\"",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "storage.regex.mj"
+                        }
+                    },
+                    "end": "\"|$",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "name": "string.quoted.double.mj",
+                    "patterns": [
+                        {
+                            "include": "#regex-string"
+                        }
+                    ]
+                }
+            ]
+        },
+        "regex-string": {
+            "patterns": [
+                {
+                    "match": "[$^|]|\\\\[ABbGKYy]",
                     "name": "keyword.operator.mj"
                 },
                 {
-                    "match": "\\(.*\\)",
-                    "name": "punctuation.section.mj"
+                    "include": "#regex-character"
                 },
                 {
-                    "match": "-[A-Za-z]+|--[A-Za-z][A-Za-z0-9]*",
-                    "name": "punctuation.terminator.mj"
+                    "include": "#regex-character-class"
                 },
                 {
-                    "match": "[,.]|::",
-                    "name": "punctuation.separator.mj"
+                    "match": "[?*+]|\\{(?:\\d+,?\\d*|,\\d+)\\}",
+                    "name": "keyword.operator.mj"
                 },
                 {
-                    "match": "[()\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
-                    "name": "punctuation.section.mj"
+                    "include": "#regex-group"
                 },
                 {
-                    "include": "#comment"
-                },
-                {
-                    "include": "#module"
-                },
-                {
-                    "include": "#number"
-                },
-                {
-                    "include": "#punctuation"
-                },
-                {
-                    "include": "#type-qualifier"
-                },
-                {
-                    "include": "#operator"
-                },
-                {
-                    "include": "#type"
-                },
-                {
-                    "include": "#string"
-                },
-                {
-                    "include": "#constant"
-                },
-                {
-                    "include": "#function"
-                },
-                {
-                    "include": "#variable"
+                    "match": "[\\]){}]+",
+                    "name": "invalid.illegal.mj"
                 }
             ]
         },
-        "shell-variable": {
-            "match": "(\\$)[0-9_]*[A-Za-z][A-Za-z0-9_]*\\b",
-            "name": "variable.other.mj",
-            "captures": {
-                "1": {
-                    "name": "punctuation.quoted.mj"
+        "regex-character": {
+            "patterns": [
+                {
+                    "match": "\\\\[\\\\|$^\\[\\](){}*?+.abDdefHhNnORrSstvWwXZz]|\\.",
+                    "name": "constant.escape.mj"
+                },
+                {
+                    "begin": "\\\\[Pp]\\{",
+                    "end": "\\}",
+                    "name": "constant.escape.mj",
+                    "patterns": [
+                        {
+                            "match": "\\b(?:Alnum|Alpha|Blank|Cntrl|Digit|Graph|Lower|Print|Punct|Space|Upper|XDigit|Word|ASCII|Hiragana|Katakana)\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\\\[Pp][CLMNPSZ]",
+                    "name": "constant.escape.mj"
+                },
+                {
+                    "begin": "\\\\o\\{",
+                    "end": "\\}",
+                    "name": "constant.escape.mj",
+                    "patterns": [
+                        {
+                            "match": "\\b[0-7]{1,11}\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj"
+                        }
+                    ]
+                },
+                {
+                    "begin": "\\\\x\\{",
+                    "end": "\\}",
+                    "name": "constant.escape.mj",
+                    "patterns": [
+                        {
+                            "match": "\\b\\h{1,8}\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\\\x\\h{2}",
+                    "name": "constant.escape.mj"
+                },
+                {
+                    "match": "\\\\u\\h{4}",
+                    "name": "constant.escape.mj"
+                },
+                {
+                    "match": "\\\\.?",
+                    "name": "invalid.illegal.mj"
                 }
-            }
+            ]
         },
-        "shell-substitution": {
+        "regex-character-class": {
+            "begin": "\\[(\\^)?",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.operator.mj"
+                }
+            },
+            "end": "\\]",
+            "name": "constant.escape.mj",
+            "patterns": [
+                {
+                    "match": "&&|-",
+                    "name": "keyword.operator.mj"
+                },
+                {
+                    "match": "\\\\[\\[\\]\\-]",
+                    "name": "constant.escape.mj"
+                },
+                {
+                    "include": "#regex-character"
+                },
+                {
+                    "include": "#regex-character-class"
+                }
+            ]
+        },
+        "regex-group": {
+            "patterns": [
+                {
+                    "begin": "\\(\\?~\\|",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "match": "\\|",
+                            "name": "punctuation.separator.mj"
+                        },
+                        {
+                            "include": "#regex-string"
+                        }
+                    ]
+                },
+                {
+                    "begin": "\\((?:(?:\\?(?:[#:=!>]|<(?:[=!]|\\w+>)|'\\w+'|~))|(\\?))?",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "1": {
+                            "name": "invalid.illegal.mj"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#regex-string"
+                        }
+                    ]
+                }
+            ]
+        },
+        "shell-expression": {
             "begin": "\\$\\(",
             "end": "\\)",
             "name": "punctuation.quoted.mj",
             "patterns": [
                 {
-                    "match": "(?<=\\$\\()[0-9]*[a-z_][a-z0-9_]*",
+                    "include": "#shell-token"
+                }
+            ]
+        },
+        "shell-statement": {
+            "begin": "\\$ ",
+            "end": "(?=`)|$",
+            "name": "punctuation.quoted.mj",
+            "patterns": [
+                {
+                    "include": "#shell-token"
+                }
+            ]
+        },
+        "shell-token": {
+            "patterns": [
+                {
+                    "include": "#shell-expression"
+                },
+                {
+                    "include": "#shell-variable"
+                },
+                {
+                    "match": "\\${[0-9_]*[A-Za-z][A-Za-z0-9_]*}",
+                    "name": "punctuation.quoted.mj"
+                },
+                {
+                    "begin": "\\(",
+                    "end": "\\)",
+                    "name": "punctuation.section.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\|",
                     "name": "keyword.operator.mj"
                 },
                 {
-                    "match": "\\(.*\\)",
-                    "name": "punctuation.section.mj"
-                },
-                {
-                    "match": "-[A-Za-z]+|--[A-Za-z][A-Za-z0-9]*",
-                    "name": "punctuation.terminator.mj"
-                },
-                {
-                    "match": "[,.]|::",
-                    "name": "punctuation.separator.mj"
-                },
-                {
-                    "match": "[()\\[\\]{}]|(?<![ {])<+|(?:(?<![ {])|^\\s*)>+",
-                    "name": "punctuation.section.mj"
+                    "begin": "(\\b(?:std)?(?:out|err)\\b)?>",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "constant.language.mj"
+                        }
+                    },
+                    "end": "(?<=>)(\\b(?:std)?(?:out|err)\\b)|(?=[`|<>])|$",
+                    "endCaptures": {
+                        "1": {
+                            "name": "constant.language.mj"
+                        }
+                    },
+                    "name": "keyword.operator.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
                 },
                 {
                     "include": "#comment"
                 },
                 {
-                    "include": "#module"
-                },
-                {
-                    "include": "#number"
-                },
-                {
-                    "include": "#punctuation"
-                },
-                {
-                    "include": "#type-qualifier"
-                },
-                {
-                    "include": "#operator"
-                },
-                {
-                    "include": "#type"
-                },
-                {
                     "include": "#string"
                 },
                 {
-                    "include": "#constant"
-                },
-                {
-                    "include": "#function"
-                },
-                {
-                    "include": "#variable"
+                    "begin": "(?=\\S)",
+                    "end": "(?=[ )`])|$",
+                    "name": "string.unquoted.single.mj",
+                    "patterns": [
+                        {
+                            "match": "[*?~]|\\[\\w-\\w\\]",
+                            "name": "constant.character.escape.mj"
+                        },
+                        {
+                            "begin": "{",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "constant.character.escape.mj"
+                                }
+                            },
+                            "end": "}|(?= )",
+                            "endCaptures": {
+                                "0": {
+                                    "name": "constant.character.escape.mj"
+                                }
+                            },
+                            "patterns": [
+                                {
+                                    "match": "[*?~,]|\\[\\w-\\w\\]",
+                                    "name": "constant.character.escape.mj"
+                                },
+                                {
+                                    "match": "[]\\[{]",
+                                    "name": "invalid.illegal.mj"
+                                }
+                            ]
+                        },
+                        {
+                            "match": "[]\\[{}]",
+                            "name": "invalid.illegal.mj"
+                        }
+                    ]
                 }
             ]
+        },
+        "shell-variable": {
+            "match": "\\$[0-9_]*[A-Za-z][A-Za-z0-9_]*\\b",
+            "name": "punctuation.quoted.mj"
         },
         "string": {
             "patterns": [
                 {
-                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?'$",
-                    "beginCaptures": {
+                    "begin": "'$",
+                    "end": "^ *'(\\b[0-9_]*[a-z][a-z0-9_]*)?",
+                    "endCaptures": {
                         "1": {
-                            "name": "constant.character.escape.mj"
+                            "name": "punctuation.separator.mj"
                         }
                     },
-                    "end": "^ *'",
                     "name": "string.quoted.single.mj",
                     "patterns": [
                         {
@@ -496,18 +713,23 @@
                     ]
                 },
                 {
-                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?'",
-                    "end": "'(?=[^']*$)|$",
+                    "begin": "'",
+                    "end": "'(\\b[0-9_]*[a-z][a-z0-9_]*)?(?=[^']*$)|$",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "string.quoted.single.mj"
                 },
                 {
-                    "begin": "(\\b[0-9_]*[a-z][a-z0-9_]*)?\"$",
-                    "beginCaptures": {
+                    "begin": "\"$",
+                    "end": "^ *\"(\\b[0-9_]*[a-z][a-z0-9_]*)?",
+                    "endCaptures": {
                         "1": {
-                            "name": "constant.character.escape.mj"
+                            "name": "punctuation.separator.mj"
                         }
                     },
-                    "end": "^ *\"",
                     "name": "string.quoted.double.mj",
                     "patterns": [
                         {
@@ -515,22 +737,7 @@
                             "end": "(?=^\\1\")",
                             "patterns": [
                                 {
-                                    "begin": "\\\\{",
-                                    "end": "}",
-                                    "name": "constant.character.escape.mj",
-                                    "patterns": [
-                                        {
-                                            "include": "#all"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "match": "\\\\(?:[\"0nrt\\\\]|x\\h{2}|u\\h{4})",
-                                    "name": "constant.character.escape.mj"
-                                },
-                                {
-                                    "match": "\\\\(?:x\\h*|u\\h*|.)",
-                                    "name": "invalid.illegal.mj"
+                                    "include": "#string-escape"
                                 }
                             ]
                         }
@@ -538,28 +745,40 @@
                 },
                 {
                     "begin": "\"",
-                    "end": "\"|$",
+                    "end": "\"(\\b[0-9_]*[a-z][a-z0-9_]*)?|$",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "string.quoted.double.mj",
                     "patterns": [
                         {
-                            "begin": "\\\\{",
-                            "end": "}",
-                            "name": "constant.character.escape.mj",
-                            "patterns": [
-                                {
-                                    "include": "#all"
-                                }
-                            ]
-                        },
-                        {
-                            "match": "\\\\(?:[\"0nrt\\\\]|x\\h{2}|u\\h{4})",
-                            "name": "constant.character.escape.mj"
-                        },
-                        {
-                            "match": "\\\\(?:x\\h*|u\\h*|.)",
-                            "name": "invalid.illegal.mj"
+                            "include": "#string-escape"
                         }
                     ]
+                }
+            ]
+        },
+        "string-escape": {
+            "patterns": [
+                {
+                    "begin": "\\\\\\(",
+                    "end": "\\)",
+                    "name": "constant.character.escape.mj",
+                    "patterns": [
+                        {
+                            "include": "#all"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\\\(?:[\"0nrt\\\\]|x\\h{2}|u\\h{4})",
+                    "name": "constant.character.escape.mj"
+                },
+                {
+                    "match": "\\\\(?:x\\h*|u\\h*|.)",
+                    "name": "invalid.illegal.mj"
                 }
             ]
         },
