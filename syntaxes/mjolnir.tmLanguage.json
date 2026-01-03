@@ -418,6 +418,27 @@
                     "name": "keyword.operator.mj"
                 },
                 {
+                    "match": "\\\\[gk](<(?:([+-]?\\d+)|(\\w+))?>|'(?:([+-]?\\d+)|(\\w+))?')",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "2": {
+                            "name": "constant.numeric.mj"
+                        },
+                        "3": {
+                            "name": "variable.other.mj"
+                        },
+                        "4": {
+                            "name": "constant.numeric.mj"
+                        },
+                        "5": {
+                            "name": "variable.other.mj"
+                        }
+                    },
+                    "name": "keyword.operator.mj"
+                },
+                {
                     "include": "#regex-character"
                 },
                 {
@@ -554,12 +575,18 @@
                     ]
                 },
                 {
-                    "begin": "\\((?:(?:\\?(?:[#:=!>]|<(?:[=!]|\\w+>)|'\\w+'|~))|(\\?))?",
+                    "begin": "\\((?:(?:\\?(?:[#:=!>]|<(?:[=!]|(\\w+)>)|'(\\w+)'|~))|(\\?))?",
                     "beginCaptures": {
                         "0": {
                             "name": "punctuation.separator.mj"
                         },
                         "1": {
+                            "name": "variable.other.mj"
+                        },
+                        "2": {
+                            "name": "variable.other.mj"
+                        },
+                        "3": {
                             "name": "invalid.illegal.mj"
                         }
                     },
