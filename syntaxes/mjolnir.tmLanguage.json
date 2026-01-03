@@ -362,52 +362,25 @@
             ]
         },
         "regex": {
+            "begin": "(re)\\(",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.separator.mj"
+                },
+                "1": {
+                    "name": "entity.name.type.mj"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.separator.mj"
+                }
+            },
+            "name": "string.regex.mj",
             "patterns": [
                 {
-                    "begin": "(r)\"$",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "storage.regex.mj"
-                        }
-                    },
-                    "end": "^ *\"",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.separator.mj"
-                        }
-                    },
-                    "name": "string.quoted.double.mj",
-                    "patterns": [
-                        {
-                            "begin": "^ {4}((?: {4})*)",
-                            "end": "(?=^\\1\")",
-                            "patterns": [
-                                {
-                                    "include": "#regex-string"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "begin": "(r)\"",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "storage.regex.mj"
-                        }
-                    },
-                    "end": "\"|$",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.separator.mj"
-                        }
-                    },
-                    "name": "string.quoted.double.mj",
-                    "patterns": [
-                        {
-                            "include": "#regex-string"
-                        }
-                    ]
+                    "include": "#regex-string"
                 }
             ]
         },
@@ -418,25 +391,41 @@
                     "name": "keyword.operator.mj"
                 },
                 {
-                    "match": "\\\\[gk](<(?:([+-]?\\d+)|(\\w+))?>|'(?:([+-]?\\d+)|(\\w+))?')",
+                    "match": "(\\\\)([1-9]\\d*)",
                     "captures": {
                         "1": {
-                            "name": "punctuation.separator.mj"
+                            "name": "keyword.operator.mj"
                         },
                         "2": {
-                            "name": "constant.numeric.mj"
+                            "name": "constant.escape.mj"
+                        }
+                    }
+                },
+                {
+                    "match": "(\\\\[gk])(<)(?:(\\d+)|(\\w+))?(?:([+-])(\\d+))?(>)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.mj"
                         },
                         "3": {
-                            "name": "variable.other.mj"
-                        },
-                        "4": {
                             "name": "constant.numeric.mj"
                         },
-                        "5": {
+                        "4": {
                             "name": "variable.other.mj"
+                        },
+                        "5": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "6": {
+                            "name": "constant.numeric.mj"
+                        },
+                        "7": {
+                            "name": "punctuation.separator.mj"
                         }
-                    },
-                    "name": "keyword.operator.mj"
+                    }
                 },
                 {
                     "include": "#regex-character"
@@ -445,14 +434,25 @@
                     "include": "#regex-character-class"
                 },
                 {
-                    "match": "[?*+]|\\{(?:\\d+,?\\d*|,\\d+)\\}",
+                    "match": "[?*+]|\\{(\\d+(,)?\\d*|(,)\\d+)\\}",
+                    "captures": {
+                        "1": {
+                            "name": "constant.numeric.mj"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "3": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "keyword.operator.mj"
                 },
                 {
                     "include": "#regex-group"
                 },
                 {
-                    "match": "[\\]){}]+",
+                    "match": "[\\]{}]+",
                     "name": "invalid.illegal.mj"
                 }
             ]
@@ -460,12 +460,22 @@
         "regex-character": {
             "patterns": [
                 {
-                    "match": "\\\\[\\\\|$^\\[\\](){}*?+.abDdefHhNnORrSstvWwXZz]|\\.",
+                    "match": "\\\\[\\\\|$^\\[\\](){}*?+.0abDdefHhNnORrSstvWwXZz]|\\.",
                     "name": "constant.escape.mj"
                 },
                 {
-                    "begin": "\\\\[Pp]\\{",
+                    "begin": "\\\\[Pp](\\{)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "constant.escape.mj",
                     "patterns": [
                         {
@@ -482,8 +492,18 @@
                     "name": "constant.escape.mj"
                 },
                 {
-                    "begin": "\\\\o\\{",
+                    "begin": "\\\\o(\\{)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "constant.escape.mj",
                     "patterns": [
                         {
@@ -496,8 +516,18 @@
                     ]
                 },
                 {
-                    "begin": "\\\\x\\{",
+                    "begin": "\\\\x(\\{)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        }
+                    },
                     "name": "constant.escape.mj",
                     "patterns": [
                         {
@@ -526,12 +556,19 @@
         "regex-character-class": {
             "begin": "\\[(\\^)?",
             "beginCaptures": {
+                "0": {
+                    "name": "punctuation.separator.mj"
+                },
                 "1": {
                     "name": "keyword.operator.mj"
                 }
             },
             "end": "\\]",
-            "name": "constant.escape.mj",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.separator.mj"
+                }
+            },
             "patterns": [
                 {
                     "match": "&&|-",
@@ -552,10 +589,77 @@
         "regex-group": {
             "patterns": [
                 {
-                    "begin": "\\(\\?~\\|",
+                    "match": "\\((\\?)\\{(.*)\\}(?:\\[(?:([A-Za-z_]\\w+)|(.*))?\\])?([X<>])?\\)",
+                    "captures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "1": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "2": {
+                            "name": "string.unquoted.mj"
+                        },
+                        "3": {
+                            "name": "constant.escape.mj"
+                        },
+                        "4": {
+                            "name": "invalid.illegal.mj"
+                        },
+                        "5": {
+                            "name": "keyword.operator.mj"
+                        }
+                    }
+                },
+                {
+                    "match": "\\((\\*)(?:([A-Za-z_]\\w+)|([^\\[{]*))(?:\\[(?:([A-Za-z_]\\w+)|([^{]*))?\\])?(?:\\{(.*)\\})?\\)",
+                    "captures": {
+                        "0": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "1": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "2": {
+                            "name": "string.unquoted.mj"
+                        },
+                        "3": {
+                            "name": "invalid.illegal.mj"
+                        },
+                        "4": {
+                            "name": "constant.escape.mj"
+                        },
+                        "5": {
+                            "name": "invalid.illegal.mj"
+                        },
+                        "6": {
+                            "name": "string.unquoted.mj"
+                        }
+                    }
+                },
+                {
+                    "begin": "\\((\\?)(?:(~\\|)|\\(<(?:(\\d+)|(\\w+))?(?:([+-])(\\d+))?>\\)|(?=\\())",
                     "beginCaptures": {
                         "0": {
                             "name": "punctuation.separator.mj"
+                        },
+                        "1": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "2": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "3": {
+                            "name": "constant.numeric.mj"
+                        },
+                        "4": {
+                            "name": "variable.other.mj"
+                        },
+                        "5": {
+                            "name": "keyword.operator.mj"
+                        },
+                        "6": {
+                            "name": "constant.numeric.mj"
                         }
                     },
                     "end": "\\)",
@@ -575,18 +679,24 @@
                     ]
                 },
                 {
-                    "begin": "\\((?:(?:\\?(?:[#:=!>]|<(?:[=!]|(\\w+)>)|'(\\w+)'|~))|(\\?))?",
+                    "begin": "(\\()((?:\\?(?:[#:=!>]|<[=!]|(<)(\\w+)(>)|~))|(\\?))?",
                     "beginCaptures": {
-                        "0": {
+                        "1": {
                             "name": "punctuation.separator.mj"
                         },
-                        "1": {
-                            "name": "variable.other.mj"
-                        },
                         "2": {
-                            "name": "variable.other.mj"
+                            "name": "keyword.operator.mj"
                         },
                         "3": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "4": {
+                            "name": "variable.other.mj"
+                        },
+                        "5": {
+                            "name": "punctuation.separator.mj"
+                        },
+                        "6": {
                             "name": "invalid.illegal.mj"
                         }
                     },
@@ -810,7 +920,7 @@
             ]
         },
         "type": {
-            "begin": "\\b(?:(?:[dinq]|f(?!8|12))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|int|nat|bool|void|[A-Z])\\b|[0-9]*(?:[A-Z][A-Z0-9]*[a-z+-]|[a-z+-][a-z0-9+-]*[A-Z])[A-Za-z0-9+-]*",
+            "begin": "\\b(?:(?:[dinq]|f(?!8|12))(?:8|16|32|64|128)(?:x(?:2|4|8|16|32|64))?|int|nat|re|bool|void|[A-Z])\\b|[0-9]*(?:[A-Z][A-Z0-9]*[a-z+-]|[a-z+-][a-z0-9+-]*[A-Z])[A-Za-z0-9+-]*",
             "end": "(?!\\)[\\(?]|[\\[\\(<&*?!#])",
             "name": "entity.name.type.mj",
             "patterns": [
