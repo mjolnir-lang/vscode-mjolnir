@@ -40,9 +40,7 @@
 		"languages": [
 			{
 				"id": "mjolnir",
-				"extensions": [
-					".mj"
-				],
+				"extensions": [ ".mj" ],
 				"aliases": [
 					"Mjolnir",
 					"mjolnir"
@@ -57,86 +55,73 @@
 				"id": "mjolnir-injection"
 			},
 			{
-				"id": "asm-z80",
-				"extensions": [
-					".asm-z80"
-				],
+				"id": "mjl",
+				"extensions": [ ".mjl" ],
 				"aliases": [
-					"Z80 ASM",
-					"z80",
-					"asm-z80"
+					"Mjolnir Linker Script",
+					"mjolnir ld"
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
-					"light": "./images/asm-icon.png",
-					"dark": "./images/asm-icon.png"
+					"light": "./images/mj-icon.png",
+					"dark": "./images/mj-icon.png"
 				}
-			},
-			{
-				"id": "asm-x86-injection"
-			},
-			{
-				"id": "asm-x86",
-				"extensions": [
-					".asm-x86"
-				],
-				"aliases": [
-					"x86 ASM",
-					"x86",
-					"asm-x86"
-				],
-				"configuration": "./language-configuration.json",
-				"icon": {
-					"light": "./images/asm-icon.png",
-					"dark": "./images/asm-icon.png"
-				}
-			},
-			{
-				"id": "asm-x86-injection"
 			}
 		],
 		"grammars": [
 			{
 				"language": "mjolnir",
 				"scopeName": "source.mj",
-				"path": "./syntaxes/mjolnir.tmLanguage.json",
-				"embeddedLanguages": {
-					"meta.embedded.block.c": "c"
-				}
+				"path": "./syntaxes/mj.tmLanguage.json"
 			},
 			{
 				"language": "mjolnir-injection",
 				"scopeName": "markdown.mj.injection",
-				"path": "./syntaxes/mjolnir-injection.json",
+				"path": "./syntaxes/mj.injection.json",
 				"injectTo": [
 					"text.html.markdown"
 				]
 			},
 			{
-				"language": "asm-z80",
-				"scopeName": "source.asm-z80",
-				"path": "./syntaxes/asm-z80.tmLanguage.json"
+				"language": "mjl",
+				"scopeName": "source.mjl",
+				"path": "./syntaxes/mjl.tmLanguage.json"
 			},
 			{
-				"language": "asm-z80-injection",
-				"scopeName": "markdown.asm-z80.injection",
-				"path": "./syntaxes/asm-z80-injection.json",
-				"injectTo": [
-					"text.html.markdown"
-				]
+				"scopeName": "source.mj.shell",
+				"path": "./syntaxes/mj-shell.tmLanguage.json"
 			},
 			{
-				"language": "asm-x86",
-				"scopeName": "source.asm-x86",
-				"path": "./syntaxes/asm-x86.tmLanguage.json"
+				"scopeName": "source.mj.regex",
+				"path": "./syntaxes/mj-regex.tmLanguage.json"
 			},
 			{
-				"language": "asm-x86-injection",
-				"scopeName": "markdown.asm-x86.injection",
-				"path": "./syntaxes/asm-x86-injection.json",
-				"injectTo": [
-					"text.html.markdown"
-				]
+				"scopeName": "source.mj.asm",
+				"path": "./syntaxes/mj-asm.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.arm32",
+				"path": "./syntaxes/mj-asm-arm32.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.arm64",
+				"path": "./syntaxes/mj-asm-arm64.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.msp430",
+				"path": "./syntaxes/mj-asm-msp430.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.x86",
+				"path": "./syntaxes/mj-asm-x86.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.x86_64",
+				"path": "./syntaxes/mj-asm-x86_64.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.mj.asm.z80",
+				"path": "./syntaxes/mj-asm-z80.tmLanguage.json"
 			}
 		],
 		"configuration": {

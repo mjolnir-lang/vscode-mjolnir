@@ -1,0 +1,84 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir Shell",
+    "comment": "Mjolnir shell language syntax",
+    "scopeName": "source.mj.shell",
+    "patterns": [
+        { "include": "#expression" }
+    ],
+    "repository": {
+        "expression": {
+            "patterns": [
+                { "include": "source.mj#shell-expression" },
+                { "include": "source.mj#shell-variable" },
+                {
+                    "match": "\\${[0-9_]*[A-Za-z][A-Za-z0-9_]*}",
+                    "name": "punctuation.quoted.mj.shell"
+                },
+                {
+                    "begin": "\\(",
+                    "end": "\\)",
+                    "name": "punctuation.section.mj.shell",
+                    "patterns": [
+                        { "include": "source.mj#all" }
+                    ]
+                },
+                {
+                    "match": "\\|",
+                    "name": "keyword.operator.mj.shell"
+                },
+                {
+                    "begin": "(\\b(?:std)?(?:out|err)\\b)?>",
+                    "beginCaptures": {
+                        "1": { "name": "constant.language.mj.shell" }
+                    },
+                    "end": "(?<=>)(\\b(?:std)?(?:out|err)\\b)|(?=[`|<>])|$",
+                    "endCaptures": {
+                        "1": { "name": "constant.language.mj.shell" }
+                    },
+                    "name": "keyword.operator.mj.shell",
+                    "patterns": [
+                        { "include": "source.mj#all" }
+                    ]
+                },
+                { "include": "source.mj#comment" },
+                { "include": "source.mj#string" },
+                {
+                    "begin": "(?=\\S)",
+                    "end": "(?=[ )`])|$",
+                    "name": "string.unquoted.single.mj.shell",
+                    "patterns": [
+                        {
+                            "match": "[*?~]|\\[\\w-\\w\\]",
+                            "name": "constant.character.escape.mj.shell"
+                        },
+                        {
+                            "begin": "{",
+                            "beginCaptures": {
+                                "0": { "name": "constant.character.escape.mj.shell" }
+                            },
+                            "end": "}|(?= )",
+                            "endCaptures": {
+                                "0": { "name": "constant.character.escape.mj.shell" }
+                            },
+                            "patterns": [
+                                {
+                                    "match": "[*?~,]|\\[\\w-\\w\\]",
+                                    "name": "constant.character.escape.mj.shell"
+                                },
+                                {
+                                    "match": "[]\\[{]",
+                                    "name": "invalid.illegal.mj.shell"
+                                }
+                            ]
+                        },
+                        {
+                            "match": "[]\\[{}]",
+                            "name": "invalid.illegal.mj.shell"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

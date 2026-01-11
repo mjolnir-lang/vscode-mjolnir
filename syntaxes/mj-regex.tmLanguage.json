@@ -1,0 +1,237 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir RegEx",
+    "comment": "Mjolnir RegEx language syntax (modified Oniguruma)",
+    "scopeName": "source.mj.regex",
+    "patterns": [
+        { "include": "#string" }
+    ],
+    "repository": {
+        "string": {
+            "patterns": [
+                {
+                    "match": "[|$^]|\\\\[ABbGKYyZ]",
+                    "name": "keyword.operator.mj.regex"
+                },
+                {
+                    "match": "(\\\\)([1-9]\\d*)",
+                    "captures": {
+                        "1": { "name": "keyword.operator.mj.regex" },
+                        "2": { "name": "constant.escape.mj.regex" }
+                    }
+                },
+                {
+                    "match": "(\\\\[gk])(<)(?:([1-9]\\d*)|([A-Za-z_]\\w*))?(?:([+-])([1-9]\\d*))?(>)",
+                    "captures": {
+                        "1": { "name": "keyword.operator.mj.regex" },
+                        "2": { "name": "punctuation.separator.mj.regex" },
+                        "3": { "name": "constant.numeric.mj.regex" },
+                        "4": { "name": "variable.other.mj.regex" },
+                        "5": { "name": "keyword.operator.mj.regex" },
+                        "6": { "name": "constant.numeric.mj.regex" },
+                        "7": { "name": "punctuation.separator.mj.regex" }
+                    }
+                },
+                {
+                    "match": "\\\\[gk]<(?:[1-9]\\d*|[A-Za-z_]\\w*)?[+-]?(?:[1-9]\\d*)?",
+                    "name": "invalid.illegal.mj.regex"
+                },
+                { "include": "#character" },
+                { "include": "#character-class" },
+                {
+                    "match": "[?*+]|\\{(\\d+(,)?\\d*|(,)\\d+)\\}",
+                    "captures": {
+                        "1": { "name": "constant.numeric.mj.regex" },
+                        "2": { "name": "punctuation.separator.mj.regex" },
+                        "3": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "name": "keyword.operator.mj.regex"
+                },
+                {
+                    "match": "\\{\\d*,?\\d*",
+                    "name": "invalid.illegal.mj.regex"
+                },
+                { "include": "#group" },
+                {
+                    "match": "[\\]}]+",
+                    "name": "invalid.illegal.mj.regex"
+                }
+            ]
+        },
+        "character": {
+            "patterns": [
+                {
+                    "match": "\\\\[\\\\|$^\\[\\](){}*?+.0abDdefHhNnORrSstvWwXZz]|\\.",
+                    "name": "constant.escape.mj.regex"
+                },
+                {
+                    "begin": "\\\\[Pp](\\{)",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "name": "constant.escape.mj.regex",
+                    "patterns": [
+                        {
+                            "match": "\\b(?:Alnum|Alpha|Blank|Cntrl|Digit|Graph|Lower|Print|Punct|Space|Upper|XDigit|Word|ASCII|Hiragana|Katakana)\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj.regex"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\\\[Pp][CLMNPSZ]",
+                    "name": "constant.escape.mj.regex"
+                },
+                {
+                    "begin": "\\\\o(\\{)",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "name": "constant.escape.mj.regex",
+                    "patterns": [
+                        {
+                            "match": "\\b[0-7]{1,11}\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj.regex"
+                        }
+                    ]
+                },
+                {
+                    "begin": "\\\\x(\\{)",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "name": "constant.escape.mj.regex",
+                    "patterns": [
+                        {
+                            "match": "\\b\\h{1,8}\\b"
+                        },
+                        {
+                            "match": "[^ }]+",
+                            "name": "invalid.illegal.mj.regex"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\\\x\\h{2}",
+                    "name": "constant.escape.mj.regex"
+                },
+                {
+                    "match": "\\\\u\\h{4}",
+                    "name": "constant.escape.mj.regex"
+                },
+                {
+                    "match": "\\\\.?",
+                    "name": "invalid.illegal.mj.regex"
+                }
+            ]
+        },
+        "character-class": {
+            "begin": "\\[(\\^)?",
+            "beginCaptures": {
+                "0": { "name": "punctuation.separator.mj.regex" },
+                "1": { "name": "keyword.operator.mj.regex" }
+            },
+            "end": "\\]",
+            "endCaptures": {
+                "0": { "name": "punctuation.separator.mj.regex" }
+            },
+            "patterns": [
+                {
+                    "match": "&&|-",
+                    "name": "keyword.operator.mj.regex"
+                },
+                {
+                    "match": "\\\\[\\[\\]\\-]",
+                    "name": "constant.escape.mj.regex"
+                },
+                { "include": "#character" },
+                { "include": "#character-class" }
+            ]
+        },
+        "group": {
+            "patterns": [
+                {
+                    "match": "\\((\\?)\\{(.*)\\}(?:\\[(?:([A-Za-z_]\\w+)|(.*))?\\])?([X<>])?\\)",
+                    "captures": {
+                        "0": { "name": "punctuation.separator.mj.regex" },
+                        "1": { "name": "keyword.operator.mj.regex" },
+                        "2": { "name": "string.unquoted.mj.regex" },
+                        "3": { "name": "constant.escape.mj.regex" },
+                        "4": { "name": "invalid.illegal.mj.regex" },
+                        "5": { "name": "keyword.operator.mj.regex" }
+                    }
+                },
+                {
+                    "match": "\\((\\*)(?:([A-Za-z_]\\w+)|([^\\[{]*))(?:\\[(?:([A-Za-z_]\\w+)|([^{]*))?\\])?(?:\\{(.*)\\})?\\)",
+                    "captures": {
+                        "0": { "name": "punctuation.separator.mj.regex" },
+                        "1": { "name": "keyword.operator.mj.regex" },
+                        "2": { "name": "string.unquoted.mj.regex" },
+                        "3": { "name": "invalid.illegal.mj.regex" },
+                        "4": { "name": "constant.escape.mj.regex" },
+                        "5": { "name": "invalid.illegal.mj.regex" },
+                        "6": { "name": "string.unquoted.mj.regex" }
+                    }
+                },
+                {
+                    "begin": "\\((\\?)(?:(~\\|)|\\(<(?:(\\d+)|(\\w+))?(?:([+-])(\\d+))?>\\)|(?=\\())",
+                    "beginCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" },
+                        "1": { "name": "keyword.operator.mj.regex" },
+                        "2": { "name": "keyword.operator.mj.regex" },
+                        "3": { "name": "constant.numeric.mj.regex" },
+                        "4": { "name": "variable.other.mj.regex" },
+                        "5": { "name": "keyword.operator.mj.regex" },
+                        "6": { "name": "constant.numeric.mj.regex" }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "patterns": [
+                        {
+                            "match": "\\|",
+                            "name": "punctuation.separator.mj.regex"
+                        },
+                        { "include": "#string" }
+                    ]
+                },
+                {
+                    "begin": "(\\()((?:\\?(?:[#:=!>]|<[=!]|(<)(\\w+)(>)|~))|(\\?))?",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.separator.mj.regex" },
+                        "2": { "name": "keyword.operator.mj.regex" },
+                        "3": { "name": "punctuation.separator.mj.regex" },
+                        "4": { "name": "variable.other.mj.regex" },
+                        "5": { "name": "punctuation.separator.mj.regex" },
+                        "6": { "name": "invalid.illegal.mj.regex" }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.separator.mj.regex" }
+                    },
+                    "patterns": [
+                        { "include": "#string" }
+                    ]
+                }
+            ]
+        }
+    }
+}

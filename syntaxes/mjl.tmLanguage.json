@@ -1,0 +1,25 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir Linker Script",
+    "comment": "Mjolnir linker script language syntax",
+    "scopeName": "source.mjl",
+    "fileTypes": [ "mjl" ],
+    "patterns": [
+        { "include": "#all" }
+    ],
+    "repository": {
+        "all": {
+            "patterns": [
+                { "include": "#section" }
+            ]
+        },
+        "section": {
+            "patterns": [
+                {
+                    "match": "ls",
+                    "name": "punctuation.separator.mjl"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir ASM ARM32",
+    "comment": "Mjolnir ARM32 assembler language syntax",
+    "scopeName": "source.mj.asm.arm32",
+    "patterns": [
+        { "include": "#opcode" },
+        { "include": "#register" },
+        { "include": "source.mj.asm" }
+    ],
+    "repository": {
+        "opcode": {
+            "match": "^\\s*(mov)\\b",
+            "name": "keyword.mnemonic.mj.asm.arm32"
+        },
+        "register": {
+            "match": "\\b(AF?|BC?|C|DE?|E|HL?|I[XY]?|L|PC|R|SP)\\b",
+            "name": "variable.language.mj.asm.arm32"
+        }
+    }
+}

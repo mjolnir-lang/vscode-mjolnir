@@ -1,0 +1,100 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir ASM",
+    "comment": "Mjolnir assembler core language syntax",
+    "scopeName": "source.mj.asm",
+    "patterns": [
+        { "include": "source.mj#comment" },
+        { "include": "source.mj#namespace" },
+        { "include": "source.mj#import" },
+        { "include": "source.mj#annotation" },
+        { "include": "source.mj#type-qualifier" },
+        { "include": "source.mj#string" },
+        { "include": "source.mj#constant" },
+        { "include": "source.mj#braces" },
+        { "include": "#punctuation" },
+        { "include": "#keyword" },
+        { "include": "#operator" },
+        { "include": "source.mj#type" },
+        { "include": "#invalid-opcode" },
+        { "include": "#number" },
+        { "include": "source.mj#function" },
+        { "include": "source.mj#variable" }
+    ],
+    "repository": {
+        "number": {
+            "patterns": [
+                {
+                    "match": "\\b\\d+(?:\\.\\d+(?:[Ee][+-]?\\d+)?)?([iu](?:8|16|32|64)?|f(?:32|64)?)?\\b",
+                    "name": "constant.numeric.mj.asm",
+                    "captures": {
+                        "1": { "name": "punctuation.separator.mj.asm" }
+                    }
+                },
+                {
+                    "match": "\\b(0x)[0-9A-Fa-f']*[0-9A-Fa-f](?:\\.\\h+[Pp][+-]\\d+)?([iu](?:8|16|32|64)?|f(?:32|64)?)?\\b",
+                    "name": "constant.numeric.mj.asm",
+                    "captures": {
+                        "1": { "name": "punctuation.separator.mj.asm" },
+                        "2": { "name": "punctuation.separator.mj.asm" }
+                    }
+                },
+                {
+                    "match": "\\b(0o)[0-7']*[0-7]([iu](?:8|16|32|64)?|f(?:32|64)?)?\\b",
+                    "name": "constant.numeric.mj.asm",
+                    "captures": {
+                        "1": { "name": "punctuation.separator.mj.asm" },
+                        "2": { "name": "punctuation.separator.mj.asm" }
+                    }
+                },
+                {
+                    "match": "\\b(0b)[01']*[01]([iu](?:8|16|32|64)?|f(?:32|64)?)?\\b",
+                    "name": "constant.numeric.mj.asm",
+                    "captures": {
+                        "1": { "name": "punctuation.separator.mj.asm" },
+                        "2": { "name": "punctuation.separator.mj.asm" }
+                    }
+                },
+                {
+                    "match": "\\b0\\S+\\b",
+                    "name": "invalid.illegal.mj.asm"
+                }
+            ]
+        },
+        "invalid-opcode": {
+            "match": "^ *(\\w+)\\b",
+            "captures": {
+                "1": { "name": "invalid.illegal.mj.asm" }
+            }
+        },
+        "keyword": {
+            "match": "(?<=^\\s*|[,<\\]]\\s*)\\b(enum|struct|type|union)\\b",
+            "name": "keyword.control.mj.asm"
+        },
+        "operator": {
+            "match": "[+\\-*/%<>=~&^|]|!=\\b",
+            "name": "keyword.operator.mj.asm"
+        },
+        "punctuation": {
+            "patterns": [
+                {
+                    "match": "::?|[.,;]",
+                    "name": "punctuation.separator.mj.asm"
+                },
+                {
+                    "match": "[()\\[\\]{}]",
+                    "name": "punctuation.section.mj.asm"
+                },
+                {
+                    "begin": "(?<=\\b(?:enum|type|[0-9_]*[A-Z][A-Za-z0-9]*)\\s*)<",
+                    "end": ">",
+                    "name": "punctuation.separator.mj.asm",
+                    "patterns": [
+                        { "include": "#type-qualifier" },
+                        { "include": "#type" }
+                    ]
+                }
+            ]
+        }
+    }
+}

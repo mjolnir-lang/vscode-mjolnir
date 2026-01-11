@@ -1,0 +1,21 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir ASM x86-64",
+    "comment": "Mjolnir x86-64 assembler language syntax",
+    "scopeName": "source.mj.asm.x86_64",
+    "patterns": [
+        { "include": "#opcode" },
+        { "include": "#register" },
+        { "include": "source.mj.asm" }
+    ],
+    "repository": {
+        "opcode": {
+            "match": "(?i)^\\s*(a(a[adms]|d[cd]|nd)|c(all|bw|l[cdi]|m(c|p(s[bw])?)|wd)|d(a[as]|ec|iv)|esc|hlt|i(div|mul|n(c|to?)?|ret)|j(ae?|be?|c(xz)?|e|ge?|le?|mp|n(ae?|be?|c|e|ge?|le?|o|p|s|z)|o|p[eo]?|s|z)|l(ahf|ds|e[as]|o(ck|ds[bw]|opn?[ez]))|m(ov(s[bw])?|ul)|n(eg|o[pt])|o(r|ut)|p(op|ush)f?|r(c[lr]|e(p(n?[ez])?|t[nf]?)|o[lr])|s(a(hf|l|r)|bb|cas[bw]|h[lr]|t(c|d|i|os[bw])|ub)|test|wait|x(chg|lat|or))\\b",
+            "name": "keyword.mnemonic.mj.asm.x86-64"
+        },
+        "register": {
+            "match": "\\b(AF?|BC?|C|DE?|E|HL?|I[XY]?|L|PC|R|SP)\\b",
+            "name": "variable.language.mj.asm.x86-64"
+        }
+    }
+}

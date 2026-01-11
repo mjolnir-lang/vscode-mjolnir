@@ -1,0 +1,21 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Mjolnir ASM Z80",
+    "comment": "Mjolnir Z80 assembler language syntax",
+    "scopeName": "source.mj.asm.z80",
+    "patterns": [
+        { "include": "#opcode" },
+        { "include": "#register" },
+        { "include": "source.mj.asm" }
+    ],
+    "repository": {
+        "opcode": {
+            "match": "^\\s*(p(ush|op)|exx?|ld([di]r?)?|cp([di]r?|l)?|a(d[cd]|nd)|inc|dec|daa|di|ei|neg|ccf|scf|nop|halt|im|sub|sbc|xor|or|bit|set|res|jp|djnz|call|ret[in]?|rst|in([di]r?)?|out([di]r?)?)\\b",
+            "name": "keyword.mnemonic.mj.asm.z80"
+        },
+        "register": {
+            "match": "\\b(AF?|BC?|C|DE?|E|HL?|I[XY]?|L|PC|R|SP)\\b",
+            "name": "variable.language.mj.asm.z80"
+        }
+    }
+}
