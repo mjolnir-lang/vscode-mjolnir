@@ -1,3 +1,7 @@
 /.vscode/
-/package-lock.json
-/misc/
+/.vscode-test/
+/dist
+/node_modules
+/out
+/*.vsix
+/test
