@@ -29,20 +29,21 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 
     const syntaxes = path.join(context.extensionPath, 'syntaxes');
+    const grammarNames = [
+        'mj',
+        'mj-regex',
+        'mj-shell',
+        'mj-asm',
+        'mj-asm-arm32',
+        'mj-asm-arm64',
+        'mj-asm-msp430',
+        'mj-asm-x86',
+        'mj-asm-x86_64',
+        'mj-asm-z80',
+    ];
     highlighter = await (await import('shiki')).createHighlighter({
         themes: ['gruvbox-dark-soft', 'gruvbox-light-soft'],
-        langs: [
-            require(path.join(syntaxes, 'mj.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-regex.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-shell.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-arm32.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-arm64.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-msp430.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-x86.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-x86_64.tmLanguage.json')),
-            require(path.join(syntaxes, 'mj-asm-z80.tmLanguage.json')),
-        ]
+        langs: grammarNames.map(f => require(path.join(syntaxes, f + '.tmLanguage.json')))
     });
 
     return {
