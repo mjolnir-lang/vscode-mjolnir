@@ -323,7 +323,7 @@
             "name": "keyword.operator.mj"
         },
         "import": {
-            "begin": "^ *(import) +(?=[0-9A-Za-z])",
+            "begin": "^(import) +(?=[0-9A-Za-z])",
             "beginCaptures": {
                 "1": { "name": "keyword.control.mj" }
             },
@@ -342,14 +342,6 @@
         "keyword": {
             "patterns": [
                 {
-                    "begin": "\\bfor(?= +(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])(?:[0-9a-z_]|(?:(?:const|safe) +)?[0-9A-Z]))",
-                    "end": "\\b(?:in(?! +in)\\b|(?<=in +)in(?= +in))\\b|$|(?=`)",
-                    "name": "keyword.control.mj",
-                    "patterns": [
-                        { "include": "#all" }
-                    ]
-                },
-                {
                     "match": "\\b(?:struct|union)\\b",
                     "name": "keyword.control.mj"
                 },
@@ -358,23 +350,11 @@
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:class|interface|type)(?= +(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])[~*&+-]*[0-9A-Za-z_\\[(\"'])",
+                    "match": "\\b(?:class|enum|interface|type)(?= +[0-9A-Z])",
                     "name": "keyword.control.mj"
                 },
                 {
-                    "match": "\\b(?:if|match|try|until|use|while)(?= +(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])[~*&+-]*[0-9A-Za-z_\\[{(\"'])",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\b[ai]s(?= +(?:(?:const|safe) +)?[0-9A-Z])",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\bdo(?= +\\{)",
-                    "name": "keyword.control.mj"
-                },
-                {
-                    "match": "\\b(and|break|case|catch|continue|else|fail|not|or|return|then|yield)\\b(?![(<&])",
+                    "match": "\\b(?:and|as|break|catch|continue|do|else|fail|for|if|in|is|not|or|return|then|try|until|use|when|while|yield)\\b(?![(<&])",
                     "name": "keyword.control.mj"
                 },
                 {
@@ -393,7 +373,7 @@
         "number": {
             "patterns": [
                 {
-                    "begin": "(?:\\b|[+-])\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?)?([DFINQ]|(?:[dinq]|f(?!8))(?:8|16|32|64|128)?)?(?![0-9A-Za-z_+-])(?: +(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])(?=[0-9A-Za-zπµωΩÅ°'\"]|\\^g))?",
+                    "begin": "(?:\\b|[+-])\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?(?:/\\d+(?:,\\d{3})*(?:\\.\\d+)?(?:(e)[+-]?\\d+)?)?([DFINQ]|(?:[dinq]|f(?!8))(?:8|16|32|64|128)?)?(?![0-9A-Za-z_+-])(?: +(?!(?:and|as|catch|else|in|is|or|then)\\b)(?=[0-9A-Za-zπµωΩÅ°'\"]|\\^g))?",
                     "beginCaptures": {
                         "1": { "name": "punctuation.separator.mj" },
                         "2": { "name": "punctuation.separator.mj" },
@@ -577,32 +557,32 @@
                     "name": "storage.modifier.mj"
                 },
                 {
-                    "begin": "#",
+                    "begin": "#(?!(?:and|as|catch|else|in|is|or|then)\\b)(?=\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
                     "end": "(?<!#)",
                     "name": "punctuation.section.mj",
                     "patterns": [
                         { "include": "#unit-expression" }
                     ]
+                },
+                {
+                    "match": "#",
+                    "name": "punctuation.separator.mj"
                 }
             ]
         },
         "type-qualifier": {
-            "match": "\\b(?:const|safe)\\b(?= +[0-9A-Z])",
+            "match": "\\b(?:const|safe)(?= +[0-9A-Z])",
             "name": "storage.modifier.mj"
         },
         "unit": {
             "patterns": [
                 {
-                    "begin": "(#)(?![ai]s +(?:(?:const|safe) +)?[0-9A-Z])(?=\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
+                    "begin": "(#)(?!(?:and|as|catch|else|in|is|or|then)\\b)(?=\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
                     "beginCaptures": {
                         "1": { "name": "punctuation.separator.mj" }
                     },
                     "end": "(?<!#)",
                     "patterns": [
-                        {
-                            "match": "(?:and|case|catch|else|or|then)\\b",
-                            "name": "keyword.control.mj"
-                        },
                         { "include": "#unit-expression" }
                     ]
                 },
@@ -611,7 +591,7 @@
                     "name": "punctuation.separator.mj"
                 },
                 {
-                    "begin": "\\b(unit) +(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])(?=\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
+                    "begin": "\\b(unit) +(?!(?:and|as|catch|else|in|is|or|then)\\b)(?=\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
                     "beginCaptures": {
                         "1": { "name": "keyword.control.mj" }
                     },
@@ -623,17 +603,13 @@
                                 "1": { "name": "keyword.operator.mj" }
                             }
                         },
-                        {
-                            "match": "(?:and|case|catch|else|or|then)\\b",
-                            "name": "keyword.control.mj"
-                        },
                         { "include": "#unit-expression" }
                     ]
                 }
             ]
         },
         "unit-expression": {
-            "begin": "(?!(?:and|case|catch|else|or|then)\\b(?![(<&])|[ai]s +(?:(?:const|safe) +)?[0-9A-Z])(?:\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g)",
+            "begin": "\\d+(?:\\.\\d+)?π?|π|[a-z]+(?:-[a-z+])*|[A-Za-zµωΩÅ°'\"][A-Za-zµωΩÅ]*|\\^g",
             "end": "(?![·/⁻⁰¹²³⁴⁵⁶⁷⁸⁹])",
             "name": "storage.modifier.mj",
             "patterns": [
